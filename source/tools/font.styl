@@ -1,0 +1,30 @@
+/**
+  *  example usage: font-generic($fontPath, "Titillium", "Black");
+  *
+  *  font structure:
+  *  src
+  *  | fontName
+  *  | | fontWeight (CamelCase)
+  *  | | | fontName-fontWeight (*.eot, *.svg, *.ttf, *.woff)
+  *
+  *  font weight:
+  *  100    Extra Light or Ultra Light
+  *  200    Light or Thin
+  *  300    Book or Demi
+  *  400    Normal or Regular
+  *  500    Medium
+  *  600    Semibold, Demibold
+  *  700    Bold
+  *  800    Black, Extra Bold or Heavy
+  *  900    Extra Black, Fat, Poster or Ultra Black
+*/
+
+font-generic($fontPath, $fontFamily, $fontWeight) {
+  @font-face {
+    font-family: ($fontFamily + '-' + $fontWeight);
+    src: url($fontPath + $fontFamily + '/' + $fontWeight + '/' + $fontFamily + '-' + $fontWeight + '.eot?v=1.0');
+    src: local('®'), url($fontPath + $fontFamily + '/' + $fontWeight + '/' + $fontFamily + '-' + $fontWeight + '.woff?v=1.0') format('woff'),
+    url($fontPath + $fontFamily + '/' + $fontWeight + '/' + $fontFamily + '-' + $fontWeight + '.ttf?v=1.0') format('truetype'),
+    url($fontPath + $fontFamily + '/' + $fontWeight + '/' + $fontFamily + '-' + $fontWeight + '.svg?v=1.0') format('svg');
+  }
+}

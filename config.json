@@ -1,0 +1,34 @@
+{
+  "public": "./distribute",
+  "isProduction": false,
+  "watch": true,
+  "tasks": {
+    "stylus": {
+      "src": [
+        "./source/**/*.styl"
+      ],
+      "main":["./source/theme.styl"],
+      "dst": "theme.css",
+      "options": {
+        "mapSourceRoot": "./source"
+      }
+    },
+    "copy": {
+
+    },
+    "clean": {
+      "src": [
+        "./distribute/"
+      ]
+    },
+    "build": [
+      "stylus",
+      "copy"
+    ],
+    "rebuild":[
+      "clean",
+      "stylus",
+      "copy"
+    ]
+  }
+}

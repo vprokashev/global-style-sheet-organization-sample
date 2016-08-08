@@ -1,0 +1,27 @@
+inline-block-crutch(){
+  &:before{
+    display inline-block;
+    vertical-align middle;
+    height: 100%;
+    content: ""
+    width: 0
+  }
+}
+
+percent($prop, $full, $part){
+  {$prop}: ($part * 100% / $full)
+}
+
+radius($r){
+  width: $r;
+  height $r;
+}
+
+restrict-center($maxWidth = 1000px){
+  max-width: $maxWidth;
+  margin: 0 auto;
+}
+
+inherit(){
+
+}
