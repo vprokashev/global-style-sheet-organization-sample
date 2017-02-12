@@ -26,18 +26,10 @@ console.info('API HOST: ' + options.server);
 
 var config = require(options.config);
 
-switch (options['env']){
-    case 'production': {
-        config.isProduction = true;
-        console.log('Production build');
-        break;
-    }
-    case 'develop': {
-        config.isProduction = false;
-        console.log('Develop build');
-        break;
-    }
-}
+if(config.isProduction)
+    console.log('Production build');
+else
+    console.log('Develop build');
 
 function wrapPipe(taskFn) {
     return function(done) {

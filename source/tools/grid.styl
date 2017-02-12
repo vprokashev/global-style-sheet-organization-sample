@@ -1,0 +1,63 @@
+$calculate-width($length, $count){
+  width: unit((floor(100 / $length * $count * 10000) / 10000), "%");
+}
+
+make-column($props){
+  for $col-obj in $props{
+    if !$col-obj["length"] || !$col-obj["count"]{
+      error("make column mixin error argument")
+    }
+
+    $length = remove-unit($col-obj["length"]);
+    $count = remove-unit($col-obj["count"]);
+
+    if $col-obj["max"] && $col-obj["min"]{
+      $max = $col-obj["max"]
+      $min = $col-obj["min"]
+      @media (min-width: unit($min, "px")) and (max-width: unit($max, "px")) {
+        $calculate-width($length, $count)
+      }
+    } else if $col-obj["max"] {
+      $max = $col-obj["max"]
+      @media (max-width: unit($max, "px")) {
+        $calculate-width($length, $count)
+      }
+    } else if $col-obj["min"] {
+      $max = $col-obj["min"]
+      @media (max-width: unit($max, "px")) {
+        $calculate-width($length, $count)
+      }
+    } else {
+      $calculate-width($length, $count)
+    }
+  }
+}
+
+make-inline-row(){
+  font-size: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+make-float-row(){
+  width: 100%;
+  box-sizing: border-box;
+}
+
+make-inline-col($props...){
+  margin 0;
+  box-sizing border-box;
+  display inline-block;
+  font-size: 1rem;
+
+  make-column($props);
+}
+
+make-float-col($props...){
+  float: left;
+  margin: 0;
+  box-sizing: border-box;
+  height 100%;
+
+  make-column($props);
+}

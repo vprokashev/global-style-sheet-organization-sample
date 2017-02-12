@@ -12,9 +12,10 @@ percent($prop, $full, $part){
   {$prop}: ($part * 100% / $full)
 }
 
-radius($r){
-  width: $r;
-  height $r;
+diameter($d){
+  width: $d;
+  height $d;
+  line-height $d;
 }
 
 restrict-center($maxWidth = 1000px){
@@ -22,6 +23,37 @@ restrict-center($maxWidth = 1000px){
   margin: 0 auto;
 }
 
-inherit(){
+unselectable(){
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+}
 
+clearfix(){
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+/*
+  body
+   apply(one 1, two 2, three 3)
+
+  body
+   list = (one 1) (two 2) (three 3)
+   apply(list)
+*/
+apply(props) {
+  props = arguments if length(arguments) > 1
+  for prop in props {
+    {prop [ 0 ]} prop[1]
+  }
 }
