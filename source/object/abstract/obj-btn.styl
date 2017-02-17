@@ -1,5 +1,5 @@
 .obj-btn{
-  font-family $fnt-light
+  $m-unselectable()
   text-align center;
   box-sizing border-box;
   padding 12px 20px;
@@ -9,6 +9,7 @@
   display: inline-block;
   line-height: normal;
   cursor: pointer;
+  font-weight 400;
 
   &:active, &:visited, &:focus{
     text-decoration: none;

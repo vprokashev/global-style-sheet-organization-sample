@@ -1,13 +1,9 @@
 $style{
-  font-family: $fnt-light
-  font-size 15px
-  color $fnt-color
+  font-size $v-base-size
 }
 
 input{
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  ellipsis()
 }
 
 input:-webkit-autofill {

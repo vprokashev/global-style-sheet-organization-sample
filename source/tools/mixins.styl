@@ -1,59 +1,38 @@
-inline-block-crutch(){
+$m-inline-block-crutch($align = middle){
   &:before{
     display inline-block;
-    vertical-align middle;
+    vertical-align unquote($align);
     height: 100%;
     content: ""
     width: 0
   }
 }
 
-percent($prop, $full, $part){
-  {$prop}: ($part * 100% / $full)
+$m-percent($full, $part){
+  unit(($part * 100% / $full), "%")
 }
 
-diameter($d){
+$m-rem($px, $base = $base-size ){
+  if ((unit($px) == '' || unit($px) == 'px') && ($px != 0)) {
+    return (round($px / $base, 3)) rem
+  } else {
+    return 0
+  }
+}
+
+$m-size($d){
   width: $d;
   height $d;
   line-height $d;
 }
 
-restrict-center($maxWidth = 1000px){
+$m-restrict-center($maxWidth = 1000px){
   max-width: $maxWidth;
   margin: 0 auto;
 }
 
-unselectable(){
-  user-select: none;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -o-user-select: none;
-}
-
-clearfix(){
-  &:before,
-  &:after {
-    content: " ";
-    display: table;
-  }
-
-  &:after {
-    clear: both;
-  }
-}
-
-/*
-  body
-   apply(one 1, two 2, three 3)
-
-  body
-   list = (one 1) (two 2) (three 3)
-   apply(list)
-*/
-apply(props) {
-  props = arguments if length(arguments) > 1
-  for prop in props {
-    {prop [ 0 ]} prop[1]
-  }
+$m-hide-text() {
+  overflow hidden
+  text-indent 110%
+  white-space nowrap
 }

@@ -19,12 +19,28 @@
   *  900    Extra Black, Fat, Poster or Ultra Black
 */
 
-font-generic($fontPath, $fontFamily, $fontWeight) {
+$m-font-generic($font-path, $font-family, $font-weight) {
   @font-face {
-    font-family: ($fontFamily + '-' + $fontWeight);
-    src: url($fontPath + $fontFamily + '/' + $fontWeight + '/' + $fontFamily + '-' + $fontWeight + '.eot?v=1.0');
-    src: local('®'), url($fontPath + $fontFamily + '/' + $fontWeight + '/' + $fontFamily + '-' + $fontWeight + '.woff?v=1.0') format('woff'),
-    url($fontPath + $fontFamily + '/' + $fontWeight + '/' + $fontFamily + '-' + $fontWeight + '.ttf?v=1.0') format('truetype'),
-    url($fontPath + $fontFamily + '/' + $fontWeight + '/' + $fontFamily + '-' + $fontWeight + '.svg?v=1.0') format('svg');
+    font-family: ($font-family + '-' + $font-weight);
+    src: url($font-path + $font-family + '/' + $font-weight + '/' + $font-family + '-' + $font-weight + '.eot?v=1.0');
+    src: local('®'), url($font-path + $font-family + '/' + $font-weight + '/' + $font-family + '-' + $font-weight + '.woff?v=1.0') format('woff'),
+    url($font-path + $font-family + '/' + $font-weight + '/' + $font-family + '-' + $font-weight + '.ttf?v=1.0') format('truetype'),
+    url($font-path + $font-family + '/' + $font-weight + '/' + $font-family + '-' + $font-weight + '.svg?v=1.0') format('svg');
+  }
+}
+
+$m-font-face($font-name, $file-path, $weight = 'normal', $style = 'normal') {
+  $url-fallback = 'url("' + $file-path + '.eot")'
+  $url = 'url("' + $file-path + '.eot?#iefix") format("embedded-opentype"), '
+  $url = $url + 'url("' + $file-path + '.woff") format("woff"), '
+  $url = $url + 'url("' + $file-path + '.ttf") format("truetype"), '
+  $url = $url + 'url("' + $file-path + '.svg#svg' + replace(' ', '', $font-name) + '") format("svg")'
+
+  @font-face {
+    font-family $font-name
+    src unquote($url-fallback)
+    src unquote($url)
+    font-weight unquote($weight)
+    font-style unquote($style)
   }
 }

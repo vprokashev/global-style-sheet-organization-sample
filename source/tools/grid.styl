@@ -1,63 +1,99 @@
-$calculate-width($length, $count){
+$m-calculate-width($length, $count){
   width: unit((floor(100 / $length * $count * 10000) / 10000), "%");
 }
 
-make-column($props){
+
+/**
+  use special make-float-col or make-inline-col
+*/
+_make-column($props){
   for $col-obj in $props{
     if !$col-obj["length"] || !$col-obj["count"]{
       error("make column mixin error argument")
     }
 
-    $length = remove-unit($col-obj["length"]);
-    $count = remove-unit($col-obj["count"]);
+    $length = remove-unit($col-obj["length"])
+    $count = remove-unit($col-obj["count"])
 
     if $col-obj["max"] && $col-obj["min"]{
       $max = $col-obj["max"]
       $min = $col-obj["min"]
       @media (min-width: unit($min, "px")) and (max-width: unit($max, "px")) {
-        $calculate-width($length, $count)
+        calculate-width($length, $count)
       }
     } else if $col-obj["max"] {
       $max = $col-obj["max"]
       @media (max-width: unit($max, "px")) {
-        $calculate-width($length, $count)
+        calculate-width($length, $count)
       }
     } else if $col-obj["min"] {
       $max = $col-obj["min"]
       @media (max-width: unit($max, "px")) {
-        $calculate-width($length, $count)
+        calculate-width($length, $count)
       }
     } else {
-      $calculate-width($length, $count)
+      calculate-width($length, $count)
     }
   }
 }
 
-make-inline-row(){
+$m-make-inline-row(){
   font-size: 0;
   width: 100%;
   box-sizing: border-box;
 }
 
-make-float-row(){
+$m-make-float-row(){
   width: 100%;
   box-sizing: border-box;
 }
 
-make-inline-col($props...){
+
+/**
+  make-float-col({ length, count, [?min], [?max]})
+  .col1{
+    make-inline-col(
+          {length: 12, count: 11},
+          {length: 12, count: 1, max: 1440}
+    )
+  }
+*/
+$m-make-inline-col($props...){
   margin 0;
   box-sizing border-box;
   display inline-block;
   font-size: 1rem;
 
-  make-column($props);
+  _make-column($props);
 }
 
-make-float-col($props...){
+
+/**
+  make-float-col({ length, count, [?min], [?max]})
+  .col1{
+    make-float-column(
+          {length: 12, count: 11},
+          {length: 12, count: 1, max: 1440}
+    )
+  }
+*/
+$m-make-float-col($props...){
   float: left;
   margin: 0;
   box-sizing: border-box;
   height 100%;
 
-  make-column($props);
+  _make-column($props);
+}
+
+
+/**
+  Returns the width of a specified column span
+*/
+$m-col-span-width($col-span, $col-total = 12, $col-gutter = 20px, $max-width = 1180px) {
+  // Check gutter and max-width units match, but allow $col-gutter to be `0`
+  if (unit($col-gutter) != '' && unit($col-gutter) != unit($max-width)) {
+    error('Mismatched unit types for provided for col-span-width: ' + $col-gutter + ', ' + $max-width)
+  }
+  round(($max-width + $col-gutter) * $col-span / $col-total - $col-gutter, 3)
 }
