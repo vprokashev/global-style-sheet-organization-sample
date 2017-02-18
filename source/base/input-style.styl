@@ -1,47 +1,12 @@
-$style{
-  font-size $v-base-size
+$style = {
+  font-size: $v-base-size
 }
 
 input{
   ellipsis()
+  $m-placeholder($style)
 }
 
-input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px white inset;
-}
-
-input::-webkit-input-placeholder {
-  $style
-}
-
-input:-moz-placeholder {
-  /* Firefox 18- */
-  $style
-}
-
-input::-moz-placeholder {
-  /* Firefox 19+ */
-  $style
-}
-
-input:-ms-input-placeholder {
-  $style
-}
-
-textarea::-webkit-input-placeholder {
-  $style
-}
-
-textarea:-moz-placeholder {
-  /* Firefox 18- */
-  $style
-}
-
-textarea::-moz-placeholder {
-  /* Firefox 19+ */
-  $style
-}
-
-textarea:-ms-input-placeholder {
-  $style
+textarea{
+  $m-placeholder($style)
 }

@@ -7,7 +7,7 @@
       "src": [
         "./source/**/*.styl"
       ],
-      "main":["./source/theme.styl"],
+      "main":["./source/index.styl"],
       "dst": "theme.css",
       "options": {
         "mapSourceRoot": "./source"

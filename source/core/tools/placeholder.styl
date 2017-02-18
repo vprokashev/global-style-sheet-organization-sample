@@ -1,4 +1,20 @@
-$m-placeholder() {
+$m-placeholder($style = null) {
+  if($style) {
+    +cache('$m-placeholder', $style) {
+      &::-webkit-input-placeholder {
+        {$style}
+      }
+      &:-moz-placeholder {
+        {$style}
+      }
+      &::-moz-placeholder {
+        {$style}
+      }
+      &:-ms-input-placeholder {
+        {$style}
+      }
+    }
+  }
   &::-webkit-input-placeholder {
     {block}
   }

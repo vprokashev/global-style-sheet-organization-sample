@@ -1,11 +1,14 @@
 $m-clearfix(){
-  &:before,
-  &:after {
-    content: " ";
-    display: table;
-  }
+  +cache('$m-clearfix') {
+    &:before,
+    &:after {
+      content: " ";
+      display: table;
+    }
 
-  &:after {
-    clear: both;
+    &:after {
+      clear: both;
+    }
   }
+  {block}
 }
