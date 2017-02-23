@@ -1,106 +1,131 @@
-$m-calculate-width($length, $count){
-  width: unit((floor(100 / $length * $count * 10000) / 10000), "%");
+/**
+  helper function for _make-column
+  @private
+  @param {number} - total columns
+  @param {number} - count column
+  @param {px} [null] - the distance between the columns
+*/
+_calculate-width($total, $count, $indent = null){
+  _$width = unit((floor(100 / $total * $count * 10000) / 10000), "%");
+  if !!$indent {
+    width: "calc(%s - %s)" % (_$width $indent);
+  } else {
+    width: _$width;
+  }
 }
 
 
 /**
   use special make-float-col or make-inline-col
+  @private
+  @param {object[]} - column props { total, count, indent [0], min [*], max [*] }
 */
 _make-column($props){
   for $col-obj in $props{
-    if !$col-obj["length"] || !$col-obj["count"]{
+    if !$col-obj["total"] || !$col-obj["count"]{
       error("make column mixin error argument")
     }
 
-    $length = remove-unit($col-obj["length"])
+    $total = remove-unit($col-obj["total"])
     $count = remove-unit($col-obj["count"])
+    $indent = 0
+
+    if $col-obj["indent"]{
+      $indent = $col-obj["indent"]
+    }
 
     if $col-obj["max"] && $col-obj["min"]{
       $max = $col-obj["max"]
       $min = $col-obj["min"]
       @media (min-width: unit($min, "px")) and (max-width: unit($max, "px")) {
-        calculate-width($length, $count)
+        $m-calculate-width($total, $count, $indent)
       }
     } else if $col-obj["max"] {
       $max = $col-obj["max"]
       @media (max-width: unit($max, "px")) {
-        calculate-width($length, $count)
+        $m-calculate-width($total, $count, $indent)
       }
     } else if $col-obj["min"] {
       $max = $col-obj["min"]
       @media (max-width: unit($max, "px")) {
-        calculate-width($length, $count)
+        $m-calculate-width($total, $count, $indent)
       }
     } else {
-      calculate-width($length, $count)
+      $m-calculate-width($total, $count, $indent)
     }
   }
 }
 
-$m-make-inline-row(){
-  +cache('$m-make-inline-row'){
-    font-size: 0;
-    width: 100%;
-    box-sizing: border-box;
+/**
+  Add inline row css props
+  @param {unit} - indentation in the grid between the elements
+*/
+$m-make-inline-row($indent = null){
+  if !$indent {
+    +cache('$m-make-inline-row'){
+      font-size: 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  } else {
+    +cache('$m-make-inline-row', $indent) {
+      font-size: 0;
+      width: "calc(100% + %s)" % ($indent);
+      box-sizing: border-box;
+      margin-left: (-($indent) / 2);
+      margin-right: (-($indent) / 2);
+      & > * {
+        padding-left: ($indent / 2);
+        padding-right: ($indent / 2);
+      }
+    }
   }
+
   {block}
 }
 
+/**
+  Add float row css props
+*/
 $m-make-float-row(){
   +cache('$m-make-float-row'){
     width: 100%;
     box-sizing: border-box;
+    &:before,
+    &:after {
+      content: " ";
+      display: table;
+    }
+
+    &:after {
+      clear: both;
+    }
   }
   {block}
 }
 
 
 /**
-  make-float-col({ length, count, [?min], [?max]})
-  .col1{
-    make-inline-col(
-          {length: 12, count: 11},
-          {length: 12, count: 1, max: 1440}
-    )
-  }
+  Add inline column css props
+  @param {...object} - column props { total, count, indent [0], min [*], max [*] }
 */
 $m-make-inline-col($props...){
 
-  margin 0;
-  box-sizing border-box;
   display inline-block;
-  font-size: 1rem;
+  box-sizing border-box;
 
   _make-column($props);
 }
 
 
 /**
-  make-float-col({ length, count, [?min], [?max]})
-  .col1{
-    make-float-column(
-          {length: 12, count: 11},
-          {length: 12, count: 1, max: 1440}
-    )
-  }
+  Add float column css props
+  @param {...object} - column props { total, count, indent [0], min [*], max [*] }
 */
 $m-make-float-col($props...){
   float: left;
-  margin: 0;
   box-sizing: border-box;
   height 100%;
 
   _make-column($props);
-}
-
-
-/**
-  Returns the width of a specified column span
-*/
-$m-col-span-width($col-span, $col-total = 12, $col-gutter = 20px, $max-width = 1180px) {
-  // Check gutter and max-width units match, but allow $col-gutter to be `0`
-  if (unit($col-gutter) != '' && unit($col-gutter) != unit($max-width)) {
-    error('Mismatched unit types for provided for col-span-width: ' + $col-gutter + ', ' + $max-width)
-  }
-  round(($max-width + $col-gutter) * $col-span / $col-total - $col-gutter, 3)
 }
