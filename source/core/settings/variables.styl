@@ -1,8 +1,9 @@
 $v-base-size          = 16px;
+$v-font-color         = black;
 
 $v-header-height      = 100px
 $v-footer-height      = 100px
-$v-content-height     = "calc(100% - %s - %s)" % ($v-header-height $v-footer-height)
+$v-content-height     = "calc(100% - %s)" % ($v-header-height + $v-footer-height)
 
 $v-border-radius       = 3px
 $v-border-color        = rgba(0,0,0,.2)

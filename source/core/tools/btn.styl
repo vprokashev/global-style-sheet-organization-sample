@@ -1,5 +1,4 @@
 $m-btn(){
-  $m-unselectable()
   +cache('$m-btn') {
     text-align center;
     box-sizing border-box;
@@ -11,6 +10,11 @@ $m-btn(){
     line-height: normal;
     cursor: pointer;
     font-weight 400;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
 
     &:active, &:visited, &:focus {
       text-decoration: none;
