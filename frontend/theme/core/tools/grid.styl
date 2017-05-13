@@ -21,6 +21,7 @@ _calculate-width($total, $count, $indent = null){
   @param {object[]} - column props { total, count, indent [0], min [*], max [*] }
 */
 _make-column($props){
+  //todo: make sorting order @media
   for $col-obj in $props{
     if !$col-obj["total"] || !$col-obj["count"]{
       error("make column mixin error argument")
@@ -38,20 +39,20 @@ _make-column($props){
       $max = $col-obj["max"]
       $min = $col-obj["min"]
       @media (min-width: unit($min, "px")) and (max-width: unit($max, "px")) {
-        $m-calculate-width($total, $count, $indent)
+        _calculate-width($total, $count, $indent)
       }
     } else if $col-obj["max"] {
       $max = $col-obj["max"]
       @media (max-width: unit($max, "px")) {
-        $m-calculate-width($total, $count, $indent)
+        _calculate-width($total, $count, $indent)
       }
     } else if $col-obj["min"] {
-      $max = $col-obj["min"]
-      @media (max-width: unit($max, "px")) {
-        $m-calculate-width($total, $count, $indent)
+      $min = $col-obj["min"]
+      @media (min-width: unit($min, "px")) {
+        _calculate-width($total, $count, $indent)
       }
     } else {
-      $m-calculate-width($total, $count, $indent)
+      _calculate-width($total, $count, $indent)
     }
   }
 }
@@ -72,11 +73,9 @@ $m-make-inline-row($indent = null){
       font-size: 0;
       width: "calc(100% + %s)" % ($indent);
       box-sizing: border-box;
-      margin-left: (-($indent) / 2);
-      margin-right: (-($indent) / 2);
+      margin: (-($indent) / 2);
       & > * {
-        padding-left: ($indent / 2);
-        padding-right: ($indent / 2);
+        padding: ($indent / 2);
       }
     }
   }
@@ -87,20 +86,42 @@ $m-make-inline-row($indent = null){
 /**
   Add float row css props
 */
-$m-make-float-row(){
-  +cache('$m-make-float-row'){
-    width: 100%;
-    box-sizing: border-box;
-    &:before,
-    &:after {
-      content: " ";
-      display: table;
-    }
+$m-make-float-row($indent = null){
+  if !$indent {
+    +cache('$m-make-float-row'){
+      width: 100%;
+      box-sizing: border-box;
+      &:before,
+      &:after {
+        content: " ";
+        display: table;
+      }
 
-    &:after {
-      clear: both;
+      &:after {
+        clear: both;
+      }
+    }
+  } else{
+    +cache('$m-make-float-row'){
+      width: 'calc(100% + %s)' % ($indent);
+      box-sizing: border-box;
+      &:before,
+      &:after {
+        content: " ";
+        display: table;
+      }
+
+      &:after {
+        clear: both;
+      }
+
+      margin: (-($indent) / 2);
+      & > * {
+        padding: ($indent / 2);
+      }
     }
   }
+
   {block}
 }
 
@@ -125,7 +146,6 @@ $m-make-inline-col($props...){
 $m-make-float-col($props...){
   float: left;
   box-sizing: border-box;
-  height 100%;
 
   _make-column($props);
 }

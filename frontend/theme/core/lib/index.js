@@ -10,10 +10,21 @@ module.exports = function () {
     return function ($stylus) {
         // Number functions
         // parse-float definition
-        $stylus.define('log', log);
+        $stylus.define('$m-log', log);
+        $stylus.define('$m-random-color', getRandomColor);
     }
 };
 
 function log(value){
     console.log(value);
+}
+
+function getRandomColor() {
+	const letters = '0123456789ABCDEF';
+	let color = '#';
+	let i = 0;
+	for (i; i < 6; i++) {
+		color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
 }

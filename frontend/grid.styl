@@ -1,0 +1,43 @@
+class = grid
+
+.{class}{
+  $m-make-float-row(15px)
+  $m-random-color();
+
+  &__cell-1{
+    height 120px;
+
+    $m-make-float-col({
+      total: 10,
+      count: 5
+    }, {
+      total: 12,
+      count: 12,
+      max: 800px
+    }, {
+      total: 10,
+      count: 2,
+      max: 600px
+    })
+  }
+
+  &__full-size-1{
+    $m-size(100%)
+    background-color: unquote($m-random-color());
+  }
+
+  &__full-size-2{
+    $m-size(100%)
+    background-color: unquote($m-random-color());
+  }
+
+  &__full-size-3{
+    $m-size(100%)
+    background-color: unquote($m-random-color());
+  }
+
+  &__full-size-4{
+    $m-size(100%)
+    background-color: unquote($m-random-color());
+  }
+}
