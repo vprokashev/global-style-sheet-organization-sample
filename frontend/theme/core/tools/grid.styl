@@ -73,9 +73,11 @@ $m-make-inline-row($indent = null){
       font-size: 0;
       width: "calc(100% + %s)" % ($indent);
       box-sizing: border-box;
-      margin: (-($indent) / 2);
+      margin-left: (-($indent) / 2);
+      margin-right: (-($indent) / 2);
       & > * {
-        padding: ($indent / 2);
+        padding-left: ($indent / 2);
+        padding-right: ($indent / 2);
       }
     }
   }
@@ -115,9 +117,11 @@ $m-make-float-row($indent = null){
         clear: both;
       }
 
-      margin: (-($indent) / 2);
+      margin-left: (-($indent) / 2);
+      margin-right: (-($indent) / 2);
       & > * {
-        padding: ($indent / 2);
+        padding-left: ($indent / 2);
+        padding-right: ($indent / 2);
       }
     }
   }
