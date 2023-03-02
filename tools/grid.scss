@@ -1,0 +1,105 @@
+/**
+    Remove the unit of a length
+    @param {Number} $number - Number to remove unit from
+    @return {Number} - Unitless number
+ */
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+
+  @return $number;
+}
+
+/**
+  helper function for make-column
+  @private
+  @param {number} - total columns
+  @param {number} - count column
+  @param {px} [null] - the distance between the columns
+*/
+@mixin calculate-width($total, $count, $indent: null) {
+  $width: #{floor(100 / strip-unit($total) * strip-unit($count) * 10000) / 10000};
+  @if ($indent) {
+    width: #{"calc(#{$width}% - #{$indent})"}
+  } @else {
+    width: #{"#{$width}%"};
+  }
+}
+
+/**
+  use special make-float-col or make-inline-col
+  @private
+  @param {object[]} - column props { total, count, indent [0], min [*], max [*] }
+*/
+@mixin make-column($resolutions) {
+  @each $resolution in $resolutions {
+    @if (not map-has-key($resolution, "total") or not map-has-key($resolution, "count")) {
+      @error "make-column: Invalid arguments"
+    }
+    $total: strip-unit(map-get($resolution, "total"));
+    $count: strip-unit(map-get($resolution, "count"));
+    $indent: null;
+    @if (map-has-key($resolution, "indent")) {
+      $indent: map-get($resolution, "indent");
+    }
+    @if (map-has-key($resolution, "max") and map-has-key($resolution, "min")) {
+      $max: map-get($resolution, "max");
+      $min: map-get($resolution, "min");
+      @media (min-width: $min) and (max-width: $max) {
+        @include calculate-width($total, $count, $indent);
+      }
+    } @else if (map-has-key($resolution, "max")) {
+      $max: map-get($resolution, "max");
+      @media (max-width: $max) {
+        @include calculate-width($total, $count, $indent);
+      }
+    } @else if (map-has-key($resolution, "min")) {
+      $min: map-get($resolution, "min");
+      @media (min-width: $min) {
+        @include calculate-width($total, $count, $indent);
+      }
+    } @else {
+      @include calculate-width($total, $count, $indent);
+    }
+  }
+}
+
+/**
+  Add inline row
+  @param {unit} - indentation in the grid between the elements
+  example:
+  .list {
+    @include make-inline-row(12px);
+    &__item {
+        min-height: 100px;
+        display: inline-block;
+        vertical-align: top;
+        margin-top: 6px;
+        margin-bottom: 6px;
+        @include make-column((
+            (total: 12, count: 4, indent: 12px),
+            (total: 12, count: 3, min: 990px, indent: 12px),
+            (total: 12, count: 2, min: 1440px, indent: 12px)
+        ));
+    }
+}
+*/
+@mixin make-inline-row($indent: null) {
+  @if ($indent) {
+    font-size: 0;
+    width: #{"calc(100% + #{$indent})"};
+    box-sizing: border-box;
+    margin-left: (-($indent) / 2);
+    margin-right: (-($indent) / 2);
+    & > * {
+      margin-left: ($indent / 2);
+      margin-right: ($indent / 2);
+    }
+  } @else {
+    display: inline-block;
+    font-size: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}

@@ -1,0 +1,6 @@
+@mixin text-overflow {
+  word-wrap: break-word; //low support
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}

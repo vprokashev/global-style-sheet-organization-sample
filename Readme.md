@@ -13,7 +13,6 @@
 - - unselectable
 - - placeholder
 - - clearfix
-- - material-shadow
 - + 3.initials
 - - reset-css
 - - fonts
