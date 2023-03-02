@@ -2,7 +2,7 @@ CSS Modules + SASS
 ```
 + theme
 - + 1.variables
-- - z-index (dropdown, modal, tooltip, menu)
+- - z-index (dropdown, modal, tooltip, menu, notification, alert)
 - - paths
 - - colors (for css preprocessors)
 - - shadows
