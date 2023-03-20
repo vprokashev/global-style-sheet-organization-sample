@@ -23,3 +23,6 @@ CSS Modules + SASS
 - 5.overlap (Complex selectors for multiple components. There are cases in css when this is justified. For example, when we use :hover in the parent component, and in the child we need to change the styles.)
 - index (import in the same order)
 ```
+
+Untested Tips:
+Divide into separate classes positioning and decoration
