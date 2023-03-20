@@ -26,3 +26,4 @@ CSS Modules + SASS
 
 Untested Tips:
 Divide into separate classes positioning and decoration
+todo: Create a table with all CSS properties divided into groups
