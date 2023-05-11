@@ -24,8 +24,9 @@ CSS Modules + SASS
 - index (import in the same order)
 ```
 
-Untested Tips:
-Divide into separate classes positioning and decoration
-todo: Create a table with all CSS properties divided into groups
-inner, content - width and height = 100%
-container - fixed size
+Untested Tips:  
+Divide into separate classes positioning and decoration  
+todo: Create a table with all CSS properties divided into groups  
+classes:  
+  inner, content - width and height = 100% (static)  
+  container - fixed size (relative, absolute, sticky, fixed)  
