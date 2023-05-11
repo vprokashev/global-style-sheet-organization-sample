@@ -30,4 +30,4 @@ todo: Create a table with all CSS properties divided into groups
 classes:  
   inner, content - width and height = 100% (static)  
   container - fixed size (relative, absolute, sticky, fixed)  
-  column, row - part of grid (float, table-row, table-cell, flex)  
+  column, row - part of grid (float, table-row, table-cell, flex, inline-block)  
