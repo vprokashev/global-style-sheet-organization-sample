@@ -1,0 +1,32 @@
+/* https://www.w3.org/TR/2012/WD-html-markup-20121025/elements.html */
+html, html * {
+  box-sizing: border-box;
+  background-color: inherit;
+}
+
+body,
+h1, h2, h3, h4, h5, h6, 
+p, 
+pre,
+ol, ul,
+address,
+blockquote,
+dl {
+  margin: 0;
+  font: inherit;
+}
+
+ol, ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+fieldset {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+td {
+  padding: 0;
+}
